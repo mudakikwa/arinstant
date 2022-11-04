@@ -1,6 +1,10 @@
+import InstantTrackingExperience from "./components/InstantTrackingExperience";
+
 function App() {
   return (
-    <div></div>
+    <>
+      <InstantTrackingExperience></InstantTrackingExperience>
+    </>
   );
 }
 
