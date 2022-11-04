@@ -42,24 +42,26 @@ export default class InstantTrackingExperience extends Component {
     onPointerCancel = () => {
         this.dragInfo.enabled = false
     }
+
     handleScaleChange=(e)=>{
         let scaleValue = e.target.value
         this.model.scale.set(scaleValue, scaleValue, scaleValue)
         this.setState({ ...this.state, scale: scaleValue })
     }
+
     handleResize=()=>{
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
+
     handleImageDownload=()=>{
         const url =this.canvas.current?.toDataURL('image/jpeg', 0.8);
         ZapparSharing({
             data: url,
         });
     }
+
     init=()=>{
-        let tracker, hasPlaced, mixer, loadingManager
+        let tracker, hasPlaced, mixer, loadingManager,envMap
         const clock = new THREE.Clock();
         const main = () => {
             this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas.current, preserveDrawingBuffer: true });
@@ -78,7 +80,9 @@ export default class InstantTrackingExperience extends Component {
         }
         const setupScene = () => {
             this.scene = new THREE.Scene();
-            this.scene.background = this.camera.backgroundTexture;
+            envMap = new ZapparThree.CameraEnvironmentMap();
+            this.scene.background = this.camera.backgroundTexture
+            this.scene.environment = envMap.environmentMap;
             tracker = new ZapparThree.InstantWorldTracker();
             const trackerGroup = new ZapparThree.InstantWorldAnchorGroup(this.camera, tracker);
             this.scene.add(trackerGroup);
@@ -102,9 +106,8 @@ export default class InstantTrackingExperience extends Component {
             const delta = clock.getDelta();
             mixer?.update(delta);
             this.camera.updateFrame(this.renderer);
-
+            envMap.update(this.renderer, this.camera)
             if (!hasPlaced) tracker.setAnchorPoseFromCameraOffset(0, 0, -5);
-
             this.renderer.render(this.scene, this.camera);
         }
         const animation = () => {
@@ -113,6 +116,7 @@ export default class InstantTrackingExperience extends Component {
         const setupLoadingManager = () => {
             loadingManager = new THREE.LoadingManager(() => {
                 this.experienceUI.current.style.display = "none"
+                animation()
             })
         }
         const handleRotation = () => {
@@ -125,11 +129,11 @@ export default class InstantTrackingExperience extends Component {
         createCamera()
         setupScene()
         main()
-        animation()
         handleUI()
         handleResize()
         handleRotation()
     }
+
     disposeAll=()=>{
         const clearEvents = () => {
             this.canvas.current.removeEventListener('pointermove', this.onPointerMove);
@@ -141,7 +145,6 @@ export default class InstantTrackingExperience extends Component {
         const disposeScene = () => {
             const disposeMaterial = (material) => {
                 material.dispose()
-                // dispose textures
                 for (let key of Object.keys(material)) {
                     let value = material[key]
                     if (value && typeof value === 'object' && 'minFilter' in value) {
@@ -163,12 +166,15 @@ export default class InstantTrackingExperience extends Component {
         disposeScene()
         clearEvents()
     }
+
     componentDidMount() {
         this.init()
     }
+
     componentWillUnmount(){
         this.disposeAll()
     }
+
     render() {
         return (
             <>
