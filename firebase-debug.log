@@ -1,0 +1,21 @@
+[debug] [2022-12-07T10:47:40.311Z] ----------------------------------------------------------------------
+[debug] [2022-12-07T10:47:40.320Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Mudakikwa Julio Fred\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2022-12-07T10:47:40.325Z] CLI Version:   10.7.1
+[debug] [2022-12-07T10:47:40.326Z] Platform:      win32
+[debug] [2022-12-07T10:47:40.326Z] Node Version:  v16.14.2
+[debug] [2022-12-07T10:47:40.338Z] Time:          Wed Dec 07 2022 12:47:40 GMT+0200 (Eastern European Standard Time)
+[debug] [2022-12-07T10:47:40.338Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-07T10:47:40.842Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-12-07T10:47:40.843Z] > authorizing via signed-in user (mudakikwastory@gmail.com)
+[debug] [2022-12-07T10:47:40.847Z] [iam] checking project chalenge-8ca0d for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-12-07T10:47:40.855Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/chalenge-8ca0d:testIamPermissions [none]
+[debug] [2022-12-07T10:47:40.856Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/chalenge-8ca0d:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-12-07T10:47:41.002Z] [iam] error while checking permissions, command may fail: FirebaseError: Failed to make request to https://cloudresourcemanager.googleapis.com/v1/projects/chalenge-8ca0d:testIamPermissions
+[debug] [2022-12-07T10:47:41.016Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/chalenge-8ca0d [none]
+[debug] [2022-12-07T10:47:41.051Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects/chalenge-8ca0d
+[debug] [2022-12-07T10:47:41.080Z] FirebaseError: Failed to make request to https://firebase.googleapis.com/v1beta1/projects/chalenge-8ca0d
+    at RetryOperation._fn (C:\Users\Mudakikwa Julio Fred\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:240:31)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[error] 
+[error] Error: Failed to get Firebase project chalenge-8ca0d. Please make sure the project exists and your account has permission to access it.
